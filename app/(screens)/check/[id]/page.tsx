@@ -1,28 +1,19 @@
 "use client";
-
 import ProductDetails from "@/components/ProductDetails";
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { Product } from "@/Types/globalTypes";
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-  rating: number;
-  user: {
-    name: string;
-  };
-}
-
-const ProductPage = ({ params }: { params: { id: string } }) => {
+const ProductPage = () => {
+  const params = useParams();
+  const id = params?.id as string;
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { id } = params;
-
   useEffect(() => {
+    if (!id) return;
+
     const fetchProduct = async () => {
       try {
         const response = await fetch(`/api/products/${id}`);
@@ -50,7 +41,6 @@ const ProductPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="container mx-auto p-6 min-h-screen">
-      <h1>this is is working</h1>
       {product && <ProductDetails product={product} />}
     </div>
   );

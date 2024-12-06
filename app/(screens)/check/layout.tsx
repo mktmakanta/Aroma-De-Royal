@@ -1,7 +1,12 @@
-import React from "react";
-
-const Check = () => {
-  return <div>Check layout</div>;
-};
-
-export default Check;
+export default function ProductDetailsLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <>
+      <div>Check layout</div>
+      {children}
+    </>
+  );
+}

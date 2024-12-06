@@ -5,7 +5,6 @@ import { Gem, Menu, ShoppingCart, User, X } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -54,7 +53,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu collapsed*/}
       {isMenuOpen && (
         <div className="md:hidden bg-orange-100 ring-1 ring-orange-200 space-y-4 px-4 py-3">
           <Link href="/" className=" text-black hover:text-red-600 flex gap-2">

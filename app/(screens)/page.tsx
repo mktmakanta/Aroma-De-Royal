@@ -1,6 +1,6 @@
 import ProductItems from "@/components/ProductCards";
 
-export default function Home() {
+export default function ProductsHomePage() {
   return (
     <main>
       <div className="max-w-7xl mx-auto py-10 px-5  space-y-5">

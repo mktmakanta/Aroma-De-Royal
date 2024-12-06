@@ -11,7 +11,6 @@ const ProductDetails = ({ product }: { product: any }) => {
         <ArrowLeft className="group-hover:-translate-x-1 transition-all duration-200" />
         <Link href="/">Go Back</Link>
       </Button>
-
       <div key={product._id} className=" flex flex-col md:flex-row gap-5">
         <div className=" ">
           <Image
@@ -47,7 +46,6 @@ const ProductDetails = ({ product }: { product: any }) => {
                 {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
               </span>
             </div>
-
             <Link href="/cart">
               <Button className="mt-6   text-orange-100 hover:text-red-500 rounded-sm  transition">
                 Add to Cart

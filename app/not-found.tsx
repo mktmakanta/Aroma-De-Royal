@@ -1,14 +1,13 @@
 // app/404.tsx
 import Link from "next/link";
 
+// Global not-found page component
 const NotFound = () => {
   return (
     <div
       className="relative min-h-screen bg-cover bg-center p-5"
       style={{ backgroundImage: 'url("/images/not-found.jpg")' }}
     >
-      {/* Overlay to darken background */}
-
       <div className="absolute inset-0 bg-black opacity-65"></div>
       <div className="relative z-10 flex items-center justify-center min-h-screen">
         <div className="text-center max-w-lg p-8 rounded-lg bg-white shadow-xl transform transition duration-500 hover:scale-105 bg-opacity-80">

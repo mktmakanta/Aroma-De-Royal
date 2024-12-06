@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -10,18 +9,9 @@ import {
   CardHeader,
 } from "./ui/card";
 import RatingStars from "./RatingStars";
+import ProductsLoader from "./loaders/ProductsLoader";
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-  rating: number;
-  user: {
-    name: string;
-  };
-}
+import { Product } from "@/Types/globalTypes";
 
 const ProductItems = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -51,7 +41,7 @@ const ProductItems = () => {
     fetchProducts();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <ProductsLoader />;
   if (error) return <p>Error: {error}</p>;
 
   return (

@@ -6,7 +6,6 @@ const Footer = () => {
     <footer className="bg-orange-100 text-black py-10 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {/* Company Info Section */}
           <div>
             <h3 className="text-xl font-semibold mb-4 font-serif">
               Aroma Sphere
@@ -51,8 +50,6 @@ const Footer = () => {
               </a>
             </div>
           </div>
-
-          {/* Quick Links Section */}
           <div>
             <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
@@ -78,8 +75,6 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
-          {/* Contact Information Section */}
           <div>
             <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2 text-sm">
@@ -97,8 +92,6 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-
-        {/* Copyright Section */}
         <div className="text-center mt-10 text-sm text-gray-900">
           <p>
             &copy; {new Date().getFullYear()} Aroma Sphere. All rights reserved.

@@ -1,8 +1,5 @@
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-
-interface RatingStarsProps {
-  rating: number;
-}
+import { RatingStarsProps } from "@/Types/globalTypes";
 
 const RatingStars: React.FC<RatingStarsProps> = ({ rating }) => {
   const fullStars = Math.floor(rating);
@@ -16,9 +13,7 @@ const RatingStars: React.FC<RatingStarsProps> = ({ rating }) => {
         .map((_, index) => (
           <FaStar key={`full-${index}`} className="text-yellow-400" />
         ))}
-
       {halfStars > 0 && <FaStarHalfAlt className="text-yellow-400" />}
-
       {Array(emptyStars)
         .fill(0)
         .map((_, index) => (
