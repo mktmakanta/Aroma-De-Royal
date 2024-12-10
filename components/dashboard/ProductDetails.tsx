@@ -3,8 +3,29 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import RatingStars from "../RatingStars";
 import { Button } from "../ui/button";
+import { useRouter } from "next/router";
+import { useGetProductByIdQuery } from "@/services/products";
 
-const ProductDetails = ({ product }: { product: any }) => {
+const ProductDetails = () => {
+  const router = useRouter();
+  const { id } = router.query; // Extract `id` from the dynamic route
+
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useGetProductByIdQuery(id as string);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error)
+    return (
+      <div>
+        Error: {(error as any)?.data?.message || "Failed to fetch product"}
+      </div>
+    );
+
+  if (!product) return <div>Product not found</div>;
+
   return (
     <div className="max-w-7xl mx-auto space-y-10 md:mt-8">
       <Button className="group text-black  bg-orange-100/75 hover:bg-orange-200 transition-all duration-200 ring-1 ring-orange-200/75">
@@ -25,9 +46,7 @@ const ProductDetails = ({ product }: { product: any }) => {
           <div className=" flex-1 flex flex-col space-y-3 divide-y divide-slate-300">
             <h1 className="text-2xl md:text-3xl font-bold">{product.name}</h1>
             <div className=" flex items-center justify-between pt-3">
-              <span>
-                <RatingStars rating={product.rating} />{" "}
-              </span>
+              <span>{/* <RatingStars rating={product.rating} />{" "} */}</span>
               <span>{product.numberOfReviews} Review</span>
             </div>
             <p className="text-lg font-semibold pt-3">

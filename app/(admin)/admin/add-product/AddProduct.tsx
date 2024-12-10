@@ -38,7 +38,7 @@ export default function AddProduct() {
     } = formData;
 
     try {
-      const response = await fetch("/api/example", {
+      const response = await fetch("/api/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

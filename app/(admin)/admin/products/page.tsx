@@ -21,7 +21,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/example");
+        const response = await axios.get("/api/products");
         setData(response.data);
       } catch (err) {
         setError("Failed to fetch data");
@@ -41,7 +41,10 @@ const ProductList = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl mb-6 ">Product List</h1>
+      <h1 className="text-3xl mb-6 ">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        dignissimos?
+      </h1>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {data.map((item) => (
           <Card key={item.id} className="shadow-lg">

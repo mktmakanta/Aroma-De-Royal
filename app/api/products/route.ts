@@ -1,57 +1,84 @@
-// pages/api/products/index.ts
-
 import prisma from "@/lib/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
+type Params = Promise<{ slug: string }>;
 
-interface ProductData {
-  name: string;
-  image: string;
-  brand: string;
-  category: string;
-  description: string;
-  price: number;
-  countInStock: number;
-  rating: number;
-  userId: string;
-}
-
-type Data = { success: true; product: any } | { success: false; error: string };
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  switch (req.method) {
-    case "POST":
-      await handleProduct(req, res);
-      break;
-    case "GET":
-      await handleGet(req, res);
-      break;
-    default:
-      res.setHeader("Allow", ["POST", "GET"]);
-      res.status(405).end(`Method ${req.method} Not Allowed`);
+// FETCHING ALL THE PRODUCTS
+export async function GET(req: NextRequest) {
+  try {
+    const data = await prisma.product.findMany();
+    return NextResponse.json(data, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return NextResponse.json(
+      { message: "An error occurred while fetching data." },
+      { status: 500 }
+    );
   }
 }
 
-async function handleProduct(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const data = req.body as ProductData;
-
+// ADDING A PRODUCT
+export async function POST(req: NextRequest) {
   try {
-    const newProduct = await prisma.product.create({
-      data,
+    const body = await req.json();
+    const {
+      name,
+      image,
+      brand,
+      category,
+      description,
+      price,
+      countInStock,
+      rating,
+    } = body;
+
+    const product = await prisma.product.create({
+      data: {
+        name,
+        image,
+        brand,
+        category,
+        description,
+        price: parseFloat(price),
+        countInStock: parseInt(countInStock, 10),
+        rating: parseFloat(rating),
+        user: {
+          connect: { id: "67555fbec2e9ed0259ee5521" },
+        },
+      },
     });
-    res.status(201).json({ success: true, product: newProduct });
+
+    return NextResponse.json(product, { status: 201 });
   } catch (error) {
-    res.status(500).json({ success: false, error: (error as Error).message });
+    console.error("Error creating product:", error);
+    return NextResponse.json(
+      { error: "Failed to add the product. Please try again." },
+      { status: 500 }
+    );
   }
 }
 
-async function handleGet(req: NextApiRequest, res: NextApiResponse<Data>) {
+// DELETING A SINGLE PRODUCT
+export async function DELETE(req: NextRequest, { params }: { params: Params }) {
+  const { slug } = await params;
+  console.log(slug);
+
   try {
-    const products = await prisma.product.findMany();
-    res.status(200).json({ success: true, product: products });
+    const deletedProduct = await prisma.product.delete({
+      where: { id: slug },
+    });
+
+    return NextResponse.json(
+      { message: "Product deleted successfully", deletedProduct },
+      { status: 200 }
+    );
   } catch (error) {
-    res.status(500).json({ success: false, error: (error as Error).message });
+    console.error("Error deleting product:", error);
+    return NextResponse.json(
+      { error: "Failed to delete the product. Please try again." },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
+    console.log("Prisma Client disconnected.");
   }
 }
