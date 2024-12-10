@@ -60,7 +60,6 @@ export async function POST(req: NextRequest) {
 // DELETING A SINGLE PRODUCT
 export async function DELETE(req: NextRequest, { params }: { params: Params }) {
   const { slug } = await params;
-  console.log(slug);
 
   try {
     const deletedProduct = await prisma.product.delete({
