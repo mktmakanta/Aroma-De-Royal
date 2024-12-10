@@ -1,5 +1,6 @@
 import { Menu, X } from "lucide-react"; // Icons
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Navbar({
   isSidebarOpen,
@@ -13,11 +14,22 @@ export default function Navbar({
       <button className="lg:hidden" onClick={toggleSidebar}>
         {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
-      <h1 className="hidden  md:flex text-lg font-bold">Welcome Back, Admin</h1>
+      <h1 className="hidden  md:flex text-lg font-semibold">
+        Welcome Back, Admin
+      </h1>
       <div className="flex items-center  space-x-4">
-        <Button variant="outline">Date</Button>
-        <Button variant="outline">Export</Button>
-        <div className="w-8 h-8 bg-gray-300 rounded-full" />
+        <input
+          type="search"
+          value=""
+          placeholder="Search"
+          className="w-60 h-4 bg-gray-200 p-4 rounded-full"
+        />
+
+        <Button variant="outline">Logout</Button>
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
       </div>
     </header>
   );
