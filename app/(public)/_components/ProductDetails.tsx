@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
-import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { Button } from "@/components/ui/button";
 
 type Product = {
   id: string;

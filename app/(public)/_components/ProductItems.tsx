@@ -6,10 +6,11 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-} from "../ui/card";
-import RatingStars from "../RatingStars";
+} from "@/components/ui/card";
 import { useGetProductsQuery } from "@/services/products";
-import ProductsLoader from "../loaders/ProductsLoader";
+import ProductsLoader from "@/components/loaders/ProductsLoader";
+import RatingStars from "@/components/RatingStars";
+
 interface Product {
   id: string;
   name: string;

@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Product } from "@/Types/globalTypes";
 import ProductDetailsLoader from "@/components/loaders/ProductDetailsLoader";
-import ProductDetails from "@/components/dashboard/ProductDetails";
+import ProductDetails from "../_components/ProductDetails";
+import axios from "axios";
 
 const ProductPage = () => {
   const params = useParams();
@@ -17,17 +18,14 @@ const ProductPage = () => {
 
   useEffect(() => {
     if (!id) return;
+
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/products/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch product");
-        }
-        const data = await response.json();
-        setProduct(data);
+        const response = await axios.get(`/api/products/${id}`);
+        setProduct(response.data);
       } catch (error: unknown) {
-        if (error instanceof Error) {
-          setError(error.message);
+        if (axios.isAxiosError(error)) {
+          setError(error.response?.data?.error || error.message);
         } else {
           setError("An unknown error occurred");
         }
