@@ -122,7 +122,7 @@ export default function AddProduct() {
       </label>
 
       <label>
-        Image Path:
+        Image name:
         <Input
           type="text"
           name="image"

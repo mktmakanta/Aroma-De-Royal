@@ -1,15 +1,16 @@
-import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { slug: string } }
+  req: NextRequest,
+  { params }: { params: { id: string } }
 ) {
-  const { slug } = params;
+  const { id } = params;
 
+  console.log(" awaiting log for ");
   try {
     const product = await prisma.product.findUnique({
-      where: { id: slug },
+      where: { id },
     });
 
     if (!product) {
@@ -17,7 +18,7 @@ export async function GET(
     }
 
     return NextResponse.json(
-      { message: "This is the product", product },
+      { product, message: "This is the product" },
       { status: 200 }
     );
   } catch (error) {

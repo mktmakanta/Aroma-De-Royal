@@ -52,8 +52,12 @@ const ProductItems = () => {
               </CardDescription>
             </CardContent>
             <CardFooter className="flex flex-col items-start">
-              <div className="flex gap-2 items-center p-0">
-                <RatingStars rating={4.3} /> 20 reviews
+              <div className="flex items-center justify-between w-full p-0">
+                <span>
+                  {" "}
+                  <RatingStars rating={product.rating} />
+                </span>{" "}
+                <span>20 reviews</span>
               </div>
               <div className="text-xl py-2 font-semibold">
                 $ {product.price}

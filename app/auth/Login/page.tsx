@@ -26,7 +26,7 @@ const LoginPage = () => {
 
     if (result?.error) {
       setError(result.error);
-    } else if (result.ok) {
+    } else if (result?.ok) {
       // Use session storage to get the previous page
       const redirectUrl = sessionStorage.getItem("redirect") || "/dashboard";
       router.push(redirectUrl);
