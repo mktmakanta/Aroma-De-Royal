@@ -1,20 +1,50 @@
 "use client";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+
+import React from "react";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
-export default function AddProduct() {
+const UpdateProduct = ({ productId }: { productId: string }) => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
-    image: "",
     brand: "",
     category: "",
     description: "",
-    price: 0,
-    countInStock: 0,
-    rating: 0,
+    price: "",
+    countInStock: "",
+    rating: "",
+    image: "",
   });
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(`/api/products/${productId}`);
+        const product = response.data;
+        setFormData({
+          name: product.name || "",
+          brand: product.name || "",
+          category: product.category || "",
+          description: product.description || "",
+          price: product.price || "",
+          countInStock: product.countInStock || "",
+          rating: product.rating || "",
+          image: product.image || "",
+        });
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+
+    fetchProduct();
+  }, [productId]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -25,57 +55,18 @@ export default function AddProduct() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const {
-      name,
-      image,
-      brand,
-      category,
-      description,
-      price,
-      countInStock,
-      rating,
-    } = formData;
+    setLoading(true);
 
     try {
-      const response = await fetch("/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          brand,
-          category,
-          description,
-          price,
-          countInStock,
-          rating,
-          image,
-        }),
-      });
-
-      if (response.ok) {
-        alert("Product added successfully");
-      } else {
-        throw new Error("Error adding product");
-      }
+      await axios.patch(`/api/products/${productId}`, formData);
+      alert("Product updated successfully!");
+      router.push("/admin/products");
     } catch (error) {
-      alert(
-        error instanceof Error ? error.message : "An unexpected error occurred"
-      );
+      console.error("Error updating product:", error);
+      alert("Failed to update product. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    setFormData({
-      name: "",
-      image: "",
-      brand: "",
-      category: "",
-      description: "",
-      price: 0,
-      countInStock: 0,
-      rating: 0,
-    });
   };
 
   return (
@@ -142,7 +133,11 @@ export default function AddProduct() {
           placeholder="image name"
         />
       </label>
-      <Button type="submit">Save</Button>
+      <Button type="submit" disabled={loading}>
+        {loading ? "Loading..." : "  Save Update"}
+      </Button>
     </form>
   );
-}
+};
+
+export default UpdateProduct;
