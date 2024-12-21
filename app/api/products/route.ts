@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-type Params = Promise<{ slug: string }>;
 
 // FETCHING ALL THE PRODUCTS
 export async function GET(req: NextRequest) {
@@ -42,7 +41,7 @@ export async function POST(req: NextRequest) {
         countInStock: parseInt(countInStock, 10),
         rating: parseFloat(rating),
         user: {
-          connect: { id: "67555fbec2e9ed0259ee5521" },
+          connect: { id: "6758a537415771af42469aa0" },
         },
       },
     });
@@ -54,30 +53,5 @@ export async function POST(req: NextRequest) {
       { error: "Failed to add the product. Please try again." },
       { status: 500 }
     );
-  }
-}
-
-// DELETING A SINGLE PRODUCT
-export async function DELETE(req: NextRequest, { params }: { params: Params }) {
-  const { slug } = await params;
-
-  try {
-    const deletedProduct = await prisma.product.delete({
-      where: { id: slug },
-    });
-
-    return NextResponse.json(
-      { message: "Product deleted successfully", deletedProduct },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error("Error deleting product:", error);
-    return NextResponse.json(
-      { error: "Failed to delete the product. Please try again." },
-      { status: 500 }
-    );
-  } finally {
-    await prisma.$disconnect();
-    console.log("Prisma Client disconnected.");
   }
 }
