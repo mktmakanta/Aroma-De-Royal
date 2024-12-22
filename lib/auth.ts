@@ -22,8 +22,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // Fetch the user from the database
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email: credentials?.email },
         });
+
+        // console.log(user);
 
         if (!user) {
           throw new Error("No user found with the provided email.");
@@ -41,6 +43,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         return user;
       },
+
+      //
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -52,22 +56,54 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   session: {
-    strategy: "jwt", // Use JWT for session tokens
+    strategy: "database",
   },
+  // callbacks: {
+  //   async jwt({ token, user }) {
+  //     if (user) {
+  //       token.id = user.id;
+  //     }
+  //     return token;
+  //   },
+  //   async session({ session, user }) {
+  //     session.user.id = user.id;
+  //     console.log(user.id);
+  //     // session.user.role = user.role; // Add role to the session
+  //     return session;
+  //   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id as string;
-      }
+    async session({ session, user }) {
+      console.log("Session:", session); // Log session details
       return session;
     },
   },
+
+  // // },
+  // callbacks: {
+  //   async session({ session, user }) {
+  //     const sessionUser = await prisma.user.findUnique({
+  //       where: { id: user.id },
+  //       include: {
+  //         accounts: true, // To include account info for provider-specific data
+  //       },
+  //     });
+
+  //     // Store additional session information
+  //     session.user.id = sessionUser.id;
+  //     session.user.email = sessionUser.email;
+  //     session.user.isAdmin = sessionUser.isAdmin;
+  //     return session;
+  //   },
+  //   async jwt({ token, user }) {
+  //     if (user) {
+  //       token.id = user.id;
+  //       token.email = user.email;
+  //       token.isAdmin = user.isAdmin;
+  //     }
+  //     return token;
+  //   },
+  // },
+
   debug: true,
   pages: {
     // signIn: "/auth/Login",
