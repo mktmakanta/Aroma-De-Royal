@@ -6,23 +6,32 @@ import { Button } from "@/components/ui/button";
 
 const DeleteProductButton = ({ productId }: { productId: string }) => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const handleDelete = async () => {
     setLoading(true);
+    setError(null);
+    setSuccess(null);
+
     try {
       await axios.delete(`/api/products/${productId}`);
-      alert("Product deleted successfully");
+      setSuccess("Product deleted successfully");
     } catch (error) {
-      alert("Failed to delete product");
+      setError("Failed to delete product. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Button variant={"destructive"} onClick={handleDelete} disabled={loading}>
-      {loading ? "Deleting..." : "Delete"}
-    </Button>
+    <div>
+      {success && <p className="text-green-500">{success}</p>}{" "}
+      {error && <p className="text-red-500">{error}</p>}
+      <Button onClick={handleDelete} variant={"destructive"} disabled={loading}>
+        {loading ? "Deleting..." : "Delete"}
+      </Button>
+    </div>
   );
 };
 

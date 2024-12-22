@@ -40,7 +40,7 @@ export default function Sidebar({
       )}
     >
       <div className="p-4">
-        <h2 className="text-xl font-bold">Admin Dashboard</h2>
+        <h2 className="text-xl ">Admin Dashboard</h2>
       </div>
       <nav className="mt-4 space-y-2">
         {sidebarLinks.map((link) => (

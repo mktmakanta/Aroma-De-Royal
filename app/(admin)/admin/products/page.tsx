@@ -13,6 +13,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import DeleteAProduct from "../../_componnents/DeleteAProduct";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const ProductList = () => {
   const [data, setData] = useState<any[]>([]);
@@ -41,10 +43,7 @@ const ProductList = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl mb-6 ">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
-        dignissimos?
-      </h1>
+      <h1 className="text-3xl mb-6 ">Products List</h1>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {data.map((item) => (
           <Card key={item.id} className="shadow-lg">
@@ -96,7 +95,10 @@ const ProductList = () => {
                 </div>
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex gap-2">
+              <Link href={`/admin/products/${item.id}`}>
+                <Button className="px-6 bg-slate-800">Edit</Button>
+              </Link>
               <DeleteAProduct productId={item.id} />
             </CardFooter>
           </Card>

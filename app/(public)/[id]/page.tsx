@@ -4,33 +4,29 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Product } from "@/Types/globalTypes";
 import ProductDetailsLoader from "@/components/loaders/ProductDetailsLoader";
-import ProductDetails from "@/components/dashboard/ProductDetails";
+import ProductDetails from "../_components/ProductDetails";
+import axios from "axios";
 
 const ProductPage = () => {
   const params = useParams();
-  const id = params?.id as string;
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const id = params.id as string;
 
-  console.log(params);
+  const [isProduct, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/products/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch product");
-        }
-        const data = await response.json();
-        setProduct(data);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError("An unknown error occurred");
-        }
+        const response = await axios.get(`/api/products/${id}`);
+        setProduct(response.data.product);
+      } catch (err) {
+        const message =
+          axios.isAxiosError(err) && err.response?.data?.error
+            ? err.response.data.error
+            : "An error occurred while fetching the product.";
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -40,11 +36,11 @@ const ProductPage = () => {
   }, [id]);
 
   if (loading) return <ProductDetailsLoader />;
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <div className="text-center text-red-500">{error}</div>;
 
   return (
     <div className="container mx-auto p-6 min-h-screen">
-      {product && <ProductDetails product={product} />}
+      {isProduct && <ProductDetails productdetails={[isProduct]} />}
     </div>
   );
 };

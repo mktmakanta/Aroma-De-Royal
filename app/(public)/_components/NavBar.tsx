@@ -2,11 +2,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Gem, Menu, ShoppingCart, User, X } from "lucide-react";
-// import { useSession, signIn, signOut } from "next-auth/react";
+import SignInPage from "./SignIn";
+import SignInButton from "./SignIn";
 
 const Navbar = () => {
-  // const { data: session } = useSession();
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -41,17 +40,6 @@ const Navbar = () => {
               className="text-black hover:text-red-600 transition-all duration-100 flex gap-2"
             >
               <User />
-              {/* {session ? (
-                <>
-                  Logout {session.user?.name} <br />
-                  <button onClick={() => signOut()}>Sign out</button>
-                </>
-              ) : (
-                <>
-                  Login <br />
-                  <button onClick={() => signIn()}>Sign in</button>
-                </>
-              )} */}
               signin
             </Link>
           </div>
@@ -71,6 +59,9 @@ const Navbar = () => {
       {/* Mobile Menu collapsed*/}
       {isMenuOpen && (
         <div className="md:hidden bg-orange-100 ring-1 ring-orange-200 space-y-4 px-4 py-3">
+          <Link href="/" className=" text-black hover:text-red-600 flex gap-2">
+            <SignInButton />
+          </Link>
           <Link href="/" className=" text-black hover:text-red-600 flex gap-2">
             <ShoppingCart /> Cart
           </Link>
