@@ -1,5 +1,5 @@
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-import { RatingStarsProps } from "@/Types/globalTypes";
+import { RatingStarsProps } from "@/types/globalTypes";
 
 const RatingStars: React.FC<RatingStarsProps> = ({ rating }) => {
   return (
