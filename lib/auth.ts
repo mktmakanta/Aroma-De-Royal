@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"; // Assuming you have this set up
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -19,17 +19,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password are required.");
         }
-
-        // Fetch the user from the database
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
-
         if (!user) {
           throw new Error("No user found with the provided email.");
         }
-
-        // Compare the provided password with the stored hashed password
         const isValidPassword = await bcrypt.compare(
           credentials.password,
           user.password
@@ -38,7 +33,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!isValidPassword) {
           throw new Error("Invalid password.");
         }
-
         return user;
       },
     }),
@@ -53,17 +47,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET!,
   session: {
+<<<<<<< HEAD
     strategy: "database", //
+=======
+    strategy: "database",
+>>>>>>> a086eb6a3276c656cdfd1b46457e3e5ffe55a5e7
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, user }) {
+<<<<<<< HEAD
       if (user) {
         session.user.id = token.id as string;
+=======
+      const dbUser = await prisma.user.findUnique({
+        where: { email: user?.email },
+        select: { role: true },
+      });
+      if (dbUser) {
+        session.user.role = dbUser.role || "user";
+>>>>>>> a086eb6a3276c656cdfd1b46457e3e5ffe55a5e7
       }
       // console.log(session);
 
       return session;
     },
+<<<<<<< HEAD
     // async jwt({ token, user }) {
     //   if (user) {
     //     token.id = user.id;
@@ -79,4 +88,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   //   // verifyRequest: "/auth/verify-request", // (used for check email message)
   //   // newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
   // },
+=======
+
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.role = user.role;
+      }
+      return token;
+    },
+  },
+  // debug: true,
+  pages: {
+    // signIn: "/auth/Login",
+    // signOut: "/auth/signout",
+    // error: "/auth/error",
+    // newUser: "/auth/new-user", // New users will be redirected here
+  },
+>>>>>>> a086eb6a3276c656cdfd1b46457e3e5ffe55a5e7
 });

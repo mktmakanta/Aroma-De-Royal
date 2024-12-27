@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Gem, Menu, ShoppingCart, User, X } from "lucide-react";
 import SignInPage from "./SignIn";
 import SignInButton from "./SignIn";
+import { SignOut } from "./SignOut";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,13 +36,13 @@ const Navbar = () => {
             >
               <ShoppingCart /> Cart
             </Link>
-            <Link
-              href="/about"
-              className="text-black hover:text-red-600 transition-all duration-100 flex gap-2"
-            >
+            <div className="text-black hover:text-red-600 transition-all duration-100 flex gap-2">
               <User />
-              signin
-            </Link>
+              <SignInButton />
+            </div>
+            <div className="text-black hover:text-red-600 transition-all duration-100 flex gap-2">
+              <SignOut />
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -56,7 +57,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu collapsed*/}
       {isMenuOpen && (
         <div className="md:hidden bg-orange-100 ring-1 ring-orange-200 space-y-4 px-4 py-3">
           <Link href="/" className=" text-black hover:text-red-600 flex gap-2">
@@ -70,7 +70,6 @@ const Navbar = () => {
             className=" text-black hover:text-red-600 flex gap-2"
           >
             <User />
-            Signup
           </Link>
         </div>
       )}

@@ -23,7 +23,7 @@ type ProductDetailsProps = {
 };
 
 const ProductDetails = ({ productdetails }: ProductDetailsProps) => {
-  // const router = useRouter();
+  // const router = useRouter();X
 
   return (
     <div className="max-w-7xl mx-auto space-y-10 md:mt-8">

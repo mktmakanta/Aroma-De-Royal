@@ -1,6 +1,7 @@
 "use client";
 
 import { store } from "@/lib/store";
+import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
 
 export default function ClientProvider({
@@ -8,5 +9,10 @@ export default function ClientProvider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <Provider store={store}>{children}</Provider>;
+  return (
+    <SessionProvider>
+      {" "}
+      <Provider store={store}>{children}</Provider>
+    </SessionProvider>
+  );
 }
