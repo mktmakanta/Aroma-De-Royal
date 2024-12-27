@@ -43,37 +43,40 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.AUTH_GOOGLE_ID!,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
     }),
     GitHubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      clientId: process.env.AUTH_GITHUB_ID!,
+      clientSecret: process.env.AUTH_GITHUB_SECRET!,
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET!,
   session: {
-    strategy: "jwt", // Use JWT for session tokens
+    strategy: "database", //
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async session({ session, user }) {
       if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
         session.user.id = token.id as string;
       }
+      // console.log(session);
+
       return session;
     },
+    // async jwt({ token, user }) {
+    //   if (user) {
+    //     token.id = user.id;
+    //   }
+    //   return token;
+    // },
   },
   debug: true,
-  pages: {
-    // signIn: "/auth/Login",
-    // signOut: "/auth/signout",
-    // error: "/auth/error", // Error code passed in query string as ?error=
-    // verifyRequest: "/auth/verify-request", // (used for check email message)
-    // newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
-  },
+  // pages: {
+  //   // signIn: "/auth/Login",
+  //   // signOut: "/auth/signout",
+  //   // error: "/auth/error", // Error code passed in query string as ?error=
+  //   // verifyRequest: "/auth/verify-request", // (used for check email message)
+  //   // newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
+  // },
 });

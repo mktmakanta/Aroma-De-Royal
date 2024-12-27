@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Product } from "@/Types/globalTypes";
+
 import ProductDetailsLoader from "@/components/loaders/ProductDetailsLoader";
 import ProductDetails from "../_components/ProductDetails";
 import axios from "axios";
+import { Product } from "@/types/globalTypes";
 
 const ProductPage = () => {
   const params = useParams();
