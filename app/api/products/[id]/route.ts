@@ -1,13 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { type NextRequest, NextResponse } from "next/server";
 
+//FETCHING A SINGLE PRODUCT
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const { id } = params;
-
-  console.log(" awaiting log for ");
   try {
     const product = await prisma.product.findUnique({
       where: { id },
@@ -16,11 +15,7 @@ export async function GET(
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
-
-    return NextResponse.json(
-      { product, message: "This is the product" },
-      { status: 200 }
-    );
+    return NextResponse.json(product, { status: 200 });
   } catch (error) {
     console.error("Error fetching product:", error);
     return NextResponse.json(
@@ -62,5 +57,70 @@ export async function DELETE(
   } finally {
     await prisma.$disconnect();
     console.log("Prisma Client disconnected.");
+  }
+}
+
+// UPDATING A PRODUCT
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
+
+  try {
+    const body = await req.json();
+    const {
+      name,
+      brand,
+      category,
+      description,
+      price,
+      countInStock,
+      rating,
+      image,
+    } = body;
+
+    if (
+      !name &&
+      !brand &&
+      !description &&
+      !category &&
+      !price &&
+      !countInStock &&
+      !rating &&
+      !image
+    ) {
+      return NextResponse.json(
+        { error: "some fields are empty" },
+        { status: 400 }
+      );
+    }
+
+    const updatedProduct = await prisma.product.update({
+      where: { id: id },
+      data: {
+        ...(name && { name }),
+        ...(brand && { brand }),
+        ...(category && { category }),
+        ...(description && { description }),
+        ...(price && { price: parseFloat(price) }),
+        ...(countInStock && { countInStock: parseInt(countInStock) }),
+        ...(rating && { rating: parseFloat(rating) }),
+        ...(image && { image }),
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Product updated successfully", updatedProduct },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error updating product:", error);
+    return NextResponse.json(
+      { error: "Failed to update the product. Please try again." },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
   }
 }

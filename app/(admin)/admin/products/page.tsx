@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import DeleteAProduct from "../../_componnents/DeleteAProduct";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const ProductList = () => {
   const [data, setData] = useState<any[]>([]);
@@ -95,7 +96,9 @@ const ProductList = () => {
               </div>
             </CardContent>
             <CardFooter className="flex gap-2">
-              <Button className="px-6 bg-slate-800">Edit</Button>
+              <Link href={`/admin/products/${item.id}`}>
+                <Button className="px-6 bg-slate-800">Edit</Button>
+              </Link>
               <DeleteAProduct productId={item.id} />
             </CardFooter>
           </Card>

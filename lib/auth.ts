@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"; // Assuming you have this set up
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -19,17 +19,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password are required.");
         }
-
-        // Fetch the user from the database
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
-
         if (!user) {
           throw new Error("No user found with the provided email.");
         }
-
-        // Compare the provided password with the stored hashed password
         const isValidPassword = await bcrypt.compare(
           credentials.password,
           user.password
@@ -55,6 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "database", // Use JWT for session tokens
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, user }) {
       // if (user) {
@@ -68,8 +64,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     // signIn: "/auth/Login",
     // signOut: "/auth/signout",
-    // error: "/auth/error", // Error code passed in query string as ?error=
-    // verifyRequest: "/auth/verify-request", // (used for check email message)
-    // newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
+    // error: "/auth/error",
+    // newUser: "/auth/new-user", // New users will be redirected here
   },
 });
