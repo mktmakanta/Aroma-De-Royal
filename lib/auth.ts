@@ -38,6 +38,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!isValidPassword) {
           throw new Error("Invalid password.");
         }
+        // console.log(user.role);
 
         return user;
       },
@@ -52,19 +53,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   session: {
-    strategy: "jwt", // Use JWT for session tokens
+    strategy: "database", // Use JWT for session tokens
   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id as string;
-      }
+    async session({ session, user }) {
+      // if (user) {
+      //   // session.user.id = user.id as string;
+      // }
+      // console.log(session);
       return session;
     },
   },

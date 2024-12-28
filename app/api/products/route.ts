@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         countInStock: parseInt(countInStock, 10),
         rating: parseFloat(rating),
         user: {
-          connect: { id: "6758a537415771af42469aa0" },
+          connect: { id: "676f280064ce42f9abbaad89" },
         },
       },
     });

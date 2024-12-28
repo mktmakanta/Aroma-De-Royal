@@ -5,12 +5,22 @@ import { Gem, Menu, ShoppingCart, User, X } from "lucide-react";
 import SignInPage from "./SignIn";
 import SignInButton from "./SignIn";
 
+import { useSession } from "next-auth/react";
+
+// if (status === "authenticated") {
+//   return <p>Signed in as {session.user.email}</p>
+// }
+
+// return <a href="/api/auth/signin">Sign in</a>
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  // console.log(session?.user);
 
   return (
     <nav className="bg-orange-100 shadow-sm">
@@ -35,12 +45,13 @@ const Navbar = () => {
             >
               <ShoppingCart /> Cart
             </Link>
+
             <Link
               href="/about"
               className="text-black hover:text-red-600 transition-all duration-100 flex gap-2"
             >
               <User />
-              signin
+              {session ? "Signout" : "SignIn"}
             </Link>
           </div>
 
