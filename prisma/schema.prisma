@@ -23,7 +23,11 @@ model User {
   emailVerified DateTime?
   password  String?
   image         String?
+<<<<<<< HEAD
   role          String?  @default("user")
+=======
+  role     String   @default("user")
+>>>>>>> 1c6c1d92987b8d6df3575799ec2c775e8af08d7f
   accounts      Account[]
   sessions      Session[]
   Authenticator Authenticator[]

@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+import { Product } from "@/types/globalTypes";
+>>>>>>> a086eb6a3276c656cdfd1b46457e3e5ffe55a5e7
+>>>>>>> 1c6c1d92987b8d6df3575799ec2c775e8af08d7f
 import ProductDetailsLoader from "@/components/loaders/ProductDetailsLoader";
 import ProductDetails from "../_components/ProductDetails";
 import axios from "axios";

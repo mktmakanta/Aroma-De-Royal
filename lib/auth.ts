@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"; // Assuming you have this set up
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -19,17 +19,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password are required.");
         }
-
-        // Fetch the user from the database
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
-
         if (!user) {
           throw new Error("No user found with the provided email.");
         }
-
-        // Compare the provided password with the stored hashed password
         const isValidPassword = await bcrypt.compare(
           credentials.password,
           user.password
@@ -38,38 +33,96 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!isValidPassword) {
           throw new Error("Invalid password.");
         }
+<<<<<<< HEAD
         // console.log(user.role);
 
+=======
+>>>>>>> 1c6c1d92987b8d6df3575799ec2c775e8af08d7f
         return user;
       },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.AUTH_GOOGLE_ID!,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
     }),
     GitHubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      clientId: process.env.AUTH_GITHUB_ID!,
+      clientSecret: process.env.AUTH_GITHUB_SECRET!,
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET!,
   session: {
+<<<<<<< HEAD
     strategy: "database", // Use JWT for session tokens
+=======
+<<<<<<< HEAD
+    strategy: "database", //
+=======
+    strategy: "database",
+>>>>>>> a086eb6a3276c656cdfd1b46457e3e5ffe55a5e7
+>>>>>>> 1c6c1d92987b8d6df3575799ec2c775e8af08d7f
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, user }) {
+<<<<<<< HEAD
       // if (user) {
       //   // session.user.id = user.id as string;
       // }
       // console.log(session);
       return session;
     },
+=======
+<<<<<<< HEAD
+      if (user) {
+        session.user.id = token.id as string;
+=======
+      const dbUser = await prisma.user.findUnique({
+        where: { email: user?.email },
+        select: { role: true },
+      });
+      if (dbUser) {
+        session.user.role = dbUser.role || "user";
+>>>>>>> a086eb6a3276c656cdfd1b46457e3e5ffe55a5e7
+      }
+      // console.log(session);
+
+      return session;
+    },
+<<<<<<< HEAD
+    // async jwt({ token, user }) {
+    //   if (user) {
+    //     token.id = user.id;
+    //   }
+    //   return token;
+    // },
   },
   debug: true,
+  // pages: {
+  //   // signIn: "/auth/Login",
+  //   // signOut: "/auth/signout",
+  //   // error: "/auth/error", // Error code passed in query string as ?error=
+  //   // verifyRequest: "/auth/verify-request", // (used for check email message)
+  //   // newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
+  // },
+=======
+
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.role = user.role;
+      }
+      return token;
+    },
+>>>>>>> 1c6c1d92987b8d6df3575799ec2c775e8af08d7f
+  },
+  // debug: true,
   pages: {
     // signIn: "/auth/Login",
     // signOut: "/auth/signout",
-    // error: "/auth/error", // Error code passed in query string as ?error=
-    // verifyRequest: "/auth/verify-request", // (used for check email message)
-    // newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
+    // error: "/auth/error",
+    // newUser: "/auth/new-user", // New users will be redirected here
   },
+>>>>>>> a086eb6a3276c656cdfd1b46457e3e5ffe55a5e7
 });

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Gem, Menu, ShoppingCart, User, X } from "lucide-react";
 import SignInPage from "./SignIn";
 import SignInButton from "./SignIn";
+import { SignOut } from "./SignOut";
 
 import { useSession } from "next-auth/react";
 
@@ -45,6 +46,7 @@ const Navbar = () => {
             >
               <ShoppingCart /> Cart
             </Link>
+<<<<<<< HEAD
 
             <Link
               href="/about"
@@ -53,6 +55,15 @@ const Navbar = () => {
               <User />
               {session ? "Signout" : "SignIn"}
             </Link>
+=======
+            <div className="text-black hover:text-red-600 transition-all duration-100 flex gap-2">
+              <User />
+              <SignInButton />
+            </div>
+            <div className="text-black hover:text-red-600 transition-all duration-100 flex gap-2">
+              <SignOut />
+            </div>
+>>>>>>> 1c6c1d92987b8d6df3575799ec2c775e8af08d7f
           </div>
 
           {/* Mobile Menu Button */}
@@ -67,7 +78,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu collapsed*/}
       {isMenuOpen && (
         <div className="md:hidden bg-orange-100 ring-1 ring-orange-200 space-y-4 px-4 py-3">
           <Link href="/" className=" text-black hover:text-red-600 flex gap-2">
@@ -81,7 +91,6 @@ const Navbar = () => {
             className=" text-black hover:text-red-600 flex gap-2"
           >
             <User />
-            Signup
           </Link>
         </div>
       )}

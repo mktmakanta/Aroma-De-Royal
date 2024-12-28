@@ -11,6 +11,10 @@ export default function ClientProvider({
 }>) {
   return (
     <SessionProvider>
+<<<<<<< HEAD
+=======
+      {" "}
+>>>>>>> 1c6c1d92987b8d6df3575799ec2c775e8af08d7f
       <Provider store={store}>{children}</Provider>
     </SessionProvider>
   );
