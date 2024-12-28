@@ -46,7 +46,6 @@ const Navbar = () => {
             >
               <ShoppingCart /> Cart
             </Link>
-<<<<<<< HEAD
 
             <Link
               href="/about"
@@ -55,15 +54,6 @@ const Navbar = () => {
               <User />
               {session ? "Signout" : "SignIn"}
             </Link>
-=======
-            <div className="text-black hover:text-red-600 transition-all duration-100 flex gap-2">
-              <User />
-              <SignInButton />
-            </div>
-            <div className="text-black hover:text-red-600 transition-all duration-100 flex gap-2">
-              <SignOut />
-            </div>
->>>>>>> fa0e7071ff444ff6d30f33d883a7877f3e88ad3e
           </div>
 
           {/* Mobile Menu Button */}

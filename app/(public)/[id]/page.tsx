@@ -2,15 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-<<<<<<< HEAD
-
-=======
 import { Product } from "@/types/globalTypes";
->>>>>>> fa0e7071ff444ff6d30f33d883a7877f3e88ad3e
 import ProductDetailsLoader from "@/components/loaders/ProductDetailsLoader";
 import ProductDetails from "../_components/ProductDetails";
 import axios from "axios";
-import { Product } from "@/types/globalTypes";
 
 const ProductPage = () => {
   const params = useParams();
